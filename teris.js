@@ -2,7 +2,7 @@
 * @Author: liujiajun
 * @Date:   2017-02-21 22:22:52
 * @Last Modified by:   liujiajun
-* @Last Modified time: 2017-02-26 19:35:30
+* @Last Modified time: 2017-02-26 20:09:26
 */
 
 'use strict';
@@ -23,16 +23,15 @@ const blockType = {
 	7: [[0,1],[0,1],[1,1]],
 	8: [[1,0,0],[1,1,1]],
 	9: [[1,1],[1,0],[1,0]],
-	10: [1,1,1,1],
-	// 11: [[1],[1],[1],[1]]	//该形状不知道为什么，Block.prototype._draw中获取width会出错为undefined，因此去除
-	11: [[1,1],[1,1]],
-	12: [[0,1,0],[1,1,1]],
-	13: [[1,0],[1,1],[1,0]],
-	14: [[1,1,1],[0,1,0]],
-	15: [[0,1],[1,1], [0,1]],
-	16: [[0,1,1], [1,1,0]],
-	17: [[1,0],[1,1],[0,1]],
-	18: [[1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1]]
+	10: [[1,1,1,1]],
+	11: [[1],[1],[1],[1]],
+	12: [[1,1],[1,1]],
+	13: [[0,1,0],[1,1,1]],
+	14: [[1,0],[1,1],[1,0]],
+	15: [[1,1,1],[0,1,0]],
+	16: [[0,1],[1,1], [0,1]],
+	17: [[0,1,1], [1,1,0]],
+	18: [[1,0],[1,1],[0,1]]
 };
 
 class Block{
@@ -231,17 +230,15 @@ class TerisArea{
 	 * 产生下一个方格
 	 */
 	newActiveBlock(){
-		console.log('block1');
+		let type = Math.floor(Math.random() * 19);
 		this.activeBlock = new Block({
-			arr: blockType[Math.floor(Math.random() * 18)],
-			// arr: blockType[18],
+			arr: blockType[type],
 			parent: this
 		});
 		if(!this.activeBlock.canmove('down')){
 			alert('Game Over');
 			return;
 		}
-		console.log('block2');
 		this.blockDrop();	// 新建活动方块之后，活动方块开始下坠
 	}
 	deleteActiveBlock(){
@@ -336,13 +333,12 @@ class TerisArea{
 			setTimeout(() => {
 				this.getBorder();
 				this.newActiveBlock();
-			}, 310);
+			}, 1000);
 		}
 		else{
 			this.getBorder();
 			this.newActiveBlock();
 		}
-
 	}
 	/**
 	 * 计算是否有整行需要消除
@@ -358,7 +354,7 @@ class TerisArea{
 				this.beforeElinimateRow(i);	// 提示用户该行即将消除
 				setTimeout(() => {
 					this.elinimateRow(i);
-				},300);
+				},100);
 				eliminateCount++;
 			}
 		}
