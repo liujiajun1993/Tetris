@@ -2,7 +2,7 @@
 * @Author: liujiajun
 * @Date:   2017-02-27 09:51:25
 * @Last Modified by:   liujiajun
-* @Last Modified time: 2017-02-27 11:23:29
+* @Last Modified time: 2017-02-27 11:30:47
 */
 
 'use strict';
@@ -178,7 +178,7 @@ class TetrisArea{
 			eliminateCount = 0;
 		for(let i = 0; i < this.blockHeight; i++){
 			let currentRow = this.inactiveBlocks[i];
-			if(currentRow.length === fullWidth){	// 该行已满需要消除
+			if(currentRow.length >= fullWidth){	// 该行已满需要消除
 				this.beforeElinimateRow(i);	// 提示用户该行即将消除
 				setTimeout(() => {
 					this.elinimateRow(i);
