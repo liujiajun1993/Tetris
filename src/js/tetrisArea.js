@@ -2,7 +2,7 @@
 * @Author: liujiajun
 * @Date:   2017-02-27 09:51:25
 * @Last Modified by:   liujiajun
-* @Last Modified time: 2017-02-27 11:30:47
+* @Last Modified time: 2017-02-27 16:12:36
 */
 
 'use strict';
@@ -175,18 +175,24 @@ class TetrisArea{
 	 */
 	calElinimate(){
 		let fullWidth = this.blockWidth,
-			eliminateCount = 0;
+			eliminateArr = [];	// rowNum to be eliminated
+
 		for(let i = 0; i < this.blockHeight; i++){
 			let currentRow = this.inactiveBlocks[i];
 			if(currentRow.length >= fullWidth){	// 该行已满需要消除
 				this.beforeElinimateRow(i);	// 提示用户该行即将消除
-				setTimeout(() => {
-					this.elinimateRow(i);
-				},100);
-				eliminateCount++;
+				eliminateArr.push(i);
 			}
 		}
-		return eliminateCount > 0;
+		let len = eliminateArr.length;
+		if(len){
+			setTimeout(() => {
+				for(let i = 0; i < len; i++)
+					this.elinimateRow(eliminateArr[i]);
+			},100);
+		}
+
+		return len > 0;
 	}
 	/**
 	 * 消除行之前闪烁
