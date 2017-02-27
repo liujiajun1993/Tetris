@@ -2,7 +2,7 @@
 * @Author: liujiajun
 * @Date:   2017-02-27 09:51:25
 * @Last Modified by:   liujiajun
-* @Last Modified time: 2017-02-27 10:04:04
+* @Last Modified time: 2017-02-27 11:23:29
 */
 
 'use strict';
@@ -16,6 +16,7 @@ import {BLOCKSIZE, BLOCKTYPE} from './config';
 class TetrisArea{
 	constructor(){
 		this.activeBlock = null;	//current dropping-down block
+		this.noKeyPress = false;
 
 		this.div = document.createElement('div');
 		this.div.id = 'wrapper';
@@ -60,6 +61,7 @@ class TetrisArea{
 			return;
 		}
 		this.blockDrop();	// 新建活动方块之后，活动方块开始下坠
+		this.noKeyPress = false;
 	}
 	deleteActiveBlock(){
 		this.activeBlock = null;
@@ -67,6 +69,9 @@ class TetrisArea{
 	onkeydown(e){
 		e.stopPropagation();
 		e.preventDefault();
+		if(this.noKeyPress){
+			return false;
+		}
 		let key = e.keyCode;
 		let direction;
 		switch(key){
@@ -143,6 +148,8 @@ class TetrisArea{
 	 * 方块到达底部的处理函数
 	 */
 	blockAtBottom(){
+		this.noKeyPress = true;
+
 		let currentBlocks = this.activeBlock.blockArr;
 		for(let i = 0; i< currentBlocks.length; i++){	// 到达底部后，将当前活动方块全部加入inactiveBlocks
 			let item = currentBlocks[i];
