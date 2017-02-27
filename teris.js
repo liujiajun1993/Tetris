@@ -2,7 +2,7 @@
 * @Author: liujiajun
 * @Date:   2017-02-21 22:22:52
 * @Last Modified by:   liujiajun
-* @Last Modified time: 2017-02-26 20:09:26
+* @Last Modified time: 2017-02-27 09:30:12
 */
 
 'use strict';
@@ -277,6 +277,7 @@ class TerisArea{
 	 * @return {Array}
 	 */
 	getBorder(){
+		this.border.fill(this.height);
 		let inactiveBlocksSim = [];
 		for(let i = 0; i< this.blockHeight; i++){
 			let currentRow = this.inactiveBlocks[i];
