@@ -2,7 +2,7 @@
 * @Author: liujiajun
 * @Date:   2017-02-27 09:51:25
 * @Last Modified by:   liujiajun
-* @Last Modified time: 2017-02-27 16:12:36
+* @Last Modified time: 2017-02-27 16:45:37
 */
 
 'use strict';
@@ -108,14 +108,22 @@ class TetrisArea{
 			let currentRow = this.inactiveBlocks[i];
 			for(let j = 0; j < currentRow.length; j++){
 				let currentBlock = currentRow[j];
+				let currentLeft = parseInt(currentBlock.style.left),
+				    currentTop = parseInt(currentBlock.style.top);
+
+				if(currentTop >= this.height){	// 对于超出边界之外的小方块，直接删除
+					this.div.removeChild(currentBlock);
+					continue;
+				}
+
 				inactiveBlocksSim.push({	// 遍历并格式化后加入inactiveBlocksSim数组
-					left: parseInt(currentBlock.style.left),
-					top: parseInt(currentBlock.style.top)
+					left: currentLeft,
+					top: currentTop
 				});
 			}
 		}
 
-		for(let i = 0; i < this.blockWidth; i++){			
+		for(let i = 0; i < this.blockWidth; i++){
 			let columnArr = inactiveBlocksSim.filter((item) => {	// 找出第i列的所有元素
 				return item.left / BLOCKSIZE === i;
 			})
@@ -213,7 +221,7 @@ class TetrisArea{
 		for(let i = 0; i < fullWidth; i++){
 			this.div.removeChild(this.inactiveBlocks[rowNum][i]);	//移除所有元素
 		}
-		for(let i = rowNum - 1; i > 0; i--){	// 上方所有行下移，并更新this.inactiveBlocks
+		for(let i = rowNum - 1; i >= 0; i--){	// 上方所有行下移，并更新this.inactiveBlocks
 			let currentRow = this.inactiveBlocks[i];
 			for(let j = 0; j < currentRow.length; j++){
 				currentRow[j].style.top = (parseInt(currentRow[j].style.top) + BLOCKSIZE )+ 'px';
